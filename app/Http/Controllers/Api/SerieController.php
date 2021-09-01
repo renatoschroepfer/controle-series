@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ValidaSeriesRequest;
 use App\Serie;
+use App\Services\CriadorDeSerie;
+use App\Services\RemovedorDeSerie;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
@@ -13,17 +15,23 @@ class SerieController extends Controller
 
     public function index()
     {
-        return Serie::all();
+        return Serie::query()
+            ->orderBy('id')
+            ->get();
+            
     }
 
-
-    public function store(ValidaSeriesRequest $request)
+    public function store(ValidaSeriesRequest $request, CriadorDeSerie $criadorDeSerie)
     {
 
-        Serie::create($request->all());
+        $serie = $criadorDeSerie->criaSerie(
+            $request->nome,
+            $request->qtd_temporadas,
+            $request->ep_por_temporada
+        );
 
         return response()->json([
-            'mensagem' => 'Série criada com sucesso!',
+            'mensagem' => "Série {$serie->nome} criada com sucesso!",
         ], 201);
     }
 
@@ -39,8 +47,8 @@ class SerieController extends Controller
 
             return response()->json([
 
-                'mensagem' => 'O id informado não existe!',
-            ]);
+                'mensagem' => "O id {$id} informado não existe!",
+            ], 200);
         }
     }
 
@@ -54,22 +62,22 @@ class SerieController extends Controller
 
             return response()->json([
                 'mensagem' => 'Dados atualizados com sucesso!',
-            ]);
+            ], 200);
         } catch (ModelNotFoundException $e) {
 
             return response()->json([
                 'mensagem' => 'Você não pode atualizar a série. O id informado não existe!',
-            ]);
+            ], 404);
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, RemovedorDeSerie $removedorDeSerie)
     {
-        $serie = Serie::findOrFail($id);
-        $serie->delete();
+        $nomeSerie = $removedorDeSerie->removerSerie($request->id);
+        $nomeSerie->delete();
 
         return response()->json([
-            'mensagem' => 'Serie deletada com suesso!'
+            'mensagem' => "Serie {$nomeSerie} detelado com sucesso!"
         ]);
     }
 }

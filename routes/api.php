@@ -20,6 +20,6 @@ use Illuminate\Http\Request;
 
 Route::post('/criar-series', 'Api\SerieController@store');
 Route::get('/listar-series', 'Api\SerieController@index');
-Route::delete('deletar-series/{id}', 'Api\SerieController@destroy');
-Route::get('listar-series/{id}', 'Api\SerieController@show');
-Route::patch('atualizar-series/{id}', 'Api\SerieController@update');
+Route::delete('/deletar-series/{id}', 'Api\SerieController@destroy');
+Route::get('/listar-series/{id}', 'Api\SerieController@show');
+Route::patch('/atualizar-series/{id}', 'Api\SerieController@update');
