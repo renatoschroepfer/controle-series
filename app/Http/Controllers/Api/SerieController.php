@@ -18,7 +18,6 @@ class SerieController extends Controller
         return Serie::query()
             ->orderBy('id')
             ->get();
-            
     }
 
     public function store(ValidaSeriesRequest $request, CriadorDeSerie $criadorDeSerie)
@@ -74,8 +73,7 @@ class SerieController extends Controller
     public function destroy(Request $request, RemovedorDeSerie $removedorDeSerie)
     {
         $nomeSerie = $removedorDeSerie->removerSerie($request->id);
-        $nomeSerie->delete();
-
+        
         return response()->json([
             'mensagem' => "Serie {$nomeSerie} detelado com sucesso!"
         ]);
