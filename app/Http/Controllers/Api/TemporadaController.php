@@ -3,39 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Temporada;
-use Illuminate\Http\Request;
+use App\Serie;
 
 class TemporadaController extends Controller
 {
 
-    public function index()
+    public function index(int $serieId)
     {
-        //
-    }
+        $serie = Serie::findOrFail($serieId);
+        $temporada =  $serie->temporadas;
 
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-
-    public function show(Temporada $temporada)
-    {
-        //
-    }
-
-
-    public function update(Request $request, Temporada $temporada)
-    {
-        //
-    }
-
-
-
-    public function destroy(Temporada $temporada)
-    {
-        //
+        return response()->json([
+            'mensagem' => "As temporadas são { $temporada }"
+        ]);
     }
 }

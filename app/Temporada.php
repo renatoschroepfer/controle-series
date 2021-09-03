@@ -18,4 +18,12 @@ class Temporada extends Model
     {
         return $this->hasMany(Episodio::class);
     }
+
+    public function getEpisodiosAssistidos()
+
+    {
+        return $this->episodios->filter(function (Episodio $episodio) {
+            return $episodio->assistido;
+        });
+    }
 }

@@ -4,37 +4,35 @@ namespace App\Http\Controllers\Api;
 
 use App\Episodio;
 use App\Http\Controllers\Controller;
+use App\Temporada;
 use Illuminate\Http\Request;
 
 class EpisodioController extends Controller
 {
 
-    public function index()
-    {
-        //
-    }
+  public function index(temporada $temporada)
+  {
 
+    $episodios = $temporada->episodios;
 
-    public function store(Request $request)
-    {
-        //
-    }
+    return response()->json([
+      'mensagem' => "O episodio {$episodios}"
+    ]);
+  }
 
+  public function assitir(Temporada $temporada, Request $request)
 
-    public function show(Episodio $episodio)
-    {
-        //
-    }
+  {
 
+    $episodiosAssistidos = $request->episodios;
+    $temporada->episodios->each(function (Episodio $episodio)
+    use ($episodiosAssistidos) {
+      $episodio->assistido = in_array(
+        $episodio->id,
+        $episodiosAssistidos
+      );
 
-    public function update(Request $request, Episodio $episodio)
-    {
-        //
-    }
-
-
-    public function destroy(Episodio $episodio)
-    {
-        //
-    }
+      $episodio->push();
+    });
+  }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +19,13 @@ use Illuminate\Http\Request;
 // });
 
 
-Route::post('/criar-series', 'Api\SerieController@store');
-Route::get('/listar-series', 'Api\SerieController@index');
-Route::delete('/deletar-series/{id}', 'Api\SerieController@destroy');
-Route::get('/listar-series/{id}', 'Api\SerieController@show');
-Route::patch('/atualizar-series/{id}', 'Api\SerieController@update');
+Route::prefix('series')->group(function () {
+  Route::post('/criar-series', 'Api\SerieController@store');
+  Route::get('/listar-series', 'Api\SerieController@index');
+  Route::delete('/deletar-series/{id}', 'Api\SerieController@destroy');
+  Route::get('/listar-series/{id}', 'Api\SerieController@show');
+  Route::patch('/atualizar-series/{id}', 'Api\SerieController@update');
+  Route::get('/series/{serieId}/temporadas', 'Api\TemporadaController@index');
+  Route::get('/temporadas/{temporada}/episodios', 'Api\EpisodioController@index');
+  Route::post('/temporada/{temporada}/episodios/assistir', 'Api\EpisodioController@assitir');
+});
