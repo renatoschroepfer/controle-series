@@ -15,13 +15,9 @@ class RemovedorDeSerie
     $nomeSerie = '';
     DB::transaction(function () use ($serieId, &$nomeSerie) {
 
-    
       $serie = Serie::find($serieId);
       $nomeSerie = $serie->nome;
 
-      // dd($serie->nome);
-
-  
       $this->removerTemporadas($serie);
       $serie->delete();
     });
@@ -29,7 +25,6 @@ class RemovedorDeSerie
     return $nomeSerie;
   }
 
-  
   private function removerTemporadas(Serie $serie): void
   {
     $serie->temporadas->each(function (Temporada $temporada) {

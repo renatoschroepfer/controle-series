@@ -38,7 +38,6 @@ class SerieController extends Controller
     public function show($id)
 
     {
-
         try {
 
             return Serie::findOrFail($id);
