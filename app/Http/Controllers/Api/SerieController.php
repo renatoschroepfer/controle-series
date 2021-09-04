@@ -55,7 +55,8 @@ class SerieController extends Controller
     {
 
         try {
-            $serie = Serie::findOrFail($id);
+
+            $serie = Serie::findOrFail($request->id);
             $serie->update($request->all());
 
             return response()->json([
@@ -72,7 +73,7 @@ class SerieController extends Controller
     public function destroy(Request $request, RemovedorDeSerie $removedorDeSerie)
     {
         $nomeSerie = $removedorDeSerie->removerSerie($request->id);
-        
+
         return response()->json([
             'mensagem' => "Serie {$nomeSerie} detelado com sucesso!"
         ]);

@@ -10,11 +10,10 @@ use Illuminate\Http\Request;
 class EpisodioController extends Controller
 {
 
-  public function index(temporada $temporada)
+  public function index(Temporada $temporada)
   {
 
     $episodios = $temporada->episodios;
-
     return response()->json([
       'mensagem' => "O episodio {$episodios}"
     ]);
